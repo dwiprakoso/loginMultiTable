@@ -7,6 +7,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Route untuk halaman register
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+// Route untuk proses pendaftaran
+Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+
 Route::get('/login/{role}', function ($role) {
     // Validasi role yang dibolehkan
     if (!in_array($role, ['user', 'vendor'])) {

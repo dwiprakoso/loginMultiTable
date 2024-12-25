@@ -2,11 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function register(Request $request)
+        {
+            // Validasi input
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+
+            // Simpan data user ke database
+            $user = User::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+            ]);
+
+            // Login otomatis setelah register
+            Auth::guard('user')->login($user);
+
+            // Redirect ke dashboard user
+            return redirect()->route('user.dashboard');
+        }
     public function login(Request $request, $role)
         {
             $credentials = $request->only('email', 'password');

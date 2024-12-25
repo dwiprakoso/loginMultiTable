@@ -60,7 +60,7 @@
         <div class="card-container">
             <div class="card">
                 <h3>User</h3>
-                <a href="{{ route('login', ['role' => 'user']) }}">Login sebagai User</a>
+                <a href="{{ route('register') }}">Login sebagai User</a>
             </div>
             
             <div class="card">
